@@ -42,19 +42,18 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-      		steps {
-             // 기존 앱 프로세스 종료
-                sh 'pkill -f JenkinsApplication || true'
-                // 배포 경로 생성 및 실행
-                sh 'mkdir -p ${DEPLOY_PATH}'
-                
-    			sh '''
-    			  JAR=$(ls build/libs/*SNAPSHOT.jar | grep -v plain)
-    			  nohup java -jar "$JAR" > ${DEPLOY_PATH}/app.log 2>&1 &
-   				 '''
-      }
-        }
+stage('Deploy') {
+  steps {
+    sh '''
+      echo "PWD = $(pwd)"
+      echo "Available JARs:"
+      ls -l build/libs
+      JAR=$(ls build/libs/*SNAPSHOT.jar | grep -v plain)
+      echo "Using JAR: $JAR"
+      nohup java -jar "$JAR" > ${DEPLOY_PATH}/app.log 2>&1 &
+    '''
+  }
+}
     }
 
     post {
