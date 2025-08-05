@@ -43,16 +43,16 @@ pipeline {
         }
 
         stage('Deploy') {
-            steps {
-                // deploy-ssh: 원격 서버 접속용 SSH 키를 Jenkins Credentials에 등록한 ID
-                // sshagent 블록 내부에서만 SSH 에이전트 포워딩이 활성화됩니다.
-                // credentials: ['deploy-ssh'] → Jenkins에 등록된 원격 서버 접속용 SSH 비공개 키 ID
-                sshagent (credentials: ['deploy-ssh']) {
-					sh "ssh -p 22 jenkins@127.0.0.1 'pkill -f JenkinsApplication || true'"
-  					sh "scp -P 22 build/libs/*.jar jenkins@127.0.0.1:${DEPLOY_PATH}/"
-  					sh "ssh -p 22 jenkins@127.0.0.1 'nohup java -jar ${DEPLOY_PATH}/*.jar > ${DEPLOY_PATH}/app.log 2>&1 &'"
-                }
-            }
+      		steps {
+             // 기존 앱 프로세스 종료
+                sh 'pkill -f JenkinsApplication || true'
+                // 배포 경로 생성 및 실행
+                sh '''
+                  mkdir -p ${DEPLOY_PATH}
+                  nohup java -jar build/libs/*.jar \
+                    > ${DEPLOY_PATH}/app.log 2>&1 &
+                '''
+      }
         }
     }
 
