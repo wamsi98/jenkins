@@ -8,6 +8,6 @@ public class pathController {
 
 	@GetMapping("hello")
 	public String hello() {
-		return "Hello, Completion";
+		return "Hello, Completion~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
 	}
 }
