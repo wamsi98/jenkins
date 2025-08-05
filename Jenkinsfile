@@ -18,7 +18,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // GitHub SSH 주소 + credentialsId는 Jenkins에 등록한 SSH 키 ID
-                git credentialsId: 'github-ssh',
+                git credentialsId: 'wamsi98',
                     url: 'git@github.com:wamsi98/jenkins.git',
                     branch: 'main'
             }
