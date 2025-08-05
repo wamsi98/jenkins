@@ -51,6 +51,7 @@ stage('Deploy') {
       JAR=$(ls build/libs/*SNAPSHOT.jar | grep -v plain)
       echo "Using JAR: $JAR"
       nohup java -jar "$JAR" > ${DEPLOY_PATH}/app.log 2>&1 &
+      echo Launched JAR with PID \$!
     '''
   }
 }
