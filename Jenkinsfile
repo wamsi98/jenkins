@@ -47,7 +47,7 @@ pipeline {
                 // deploy-ssh: 원격 서버 접속용 SSH 키를 Jenkins Credentials에 등록한 ID
                 // sshagent 블록 내부에서만 SSH 에이전트 포워딩이 활성화됩니다.
                 // credentials: ['deploy-ssh'] → Jenkins에 등록된 원격 서버 접속용 SSH 비공개 키 ID
-                sshagent (credentials: ['deploy-ssh']) {
+                sshagent (credentials: ['wamsi98']) {
                     // 1) 기존 앱 프로세스 종료 (있으면) pkill
 				    sh """
                     ssh -o StrictHostKeyChecking=no -p ${DEPLOY_PORT} \
