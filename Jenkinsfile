@@ -29,7 +29,8 @@ pipeline {
                 // Gradle wrapper로 클린 빌드, 테스트 포함
                 // Gradle Wrapper의 역할 ?
                 // clean -> 이전 빌드 결과물 삭제 + build -> 컴파일 + 단위테스트 실행
-                sh './gradlew clean build'
+                // gradlew 실행권한 부여
+                sh 'chmod +x gradlew && ./gradlew clean build'
             }
         }
 
