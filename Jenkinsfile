@@ -47,11 +47,12 @@ pipeline {
              // 기존 앱 프로세스 종료
                 sh 'pkill -f JenkinsApplication || true'
                 // 배포 경로 생성 및 실행
-                sh '''
-                  mkdir -p ${DEPLOY_PATH}
-                  nohup java -jar build/libs/*.jar \
-                    > ${DEPLOY_PATH}/app.log 2>&1 &
-                '''
+                sh 'mkdir -p ${DEPLOY_PATH}'
+                
+    			sh '''
+    			  JAR=$(ls build/libs/*SNAPSHOT.jar | grep -v plain)
+    			  nohup java -jar "$JAR" > ${DEPLOY_PATH}/app.log 2>&1 &
+   				 '''
       }
         }
     }
