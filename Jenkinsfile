@@ -48,25 +48,9 @@ pipeline {
                 // sshagent 블록 내부에서만 SSH 에이전트 포워딩이 활성화됩니다.
                 // credentials: ['deploy-ssh'] → Jenkins에 등록된 원격 서버 접속용 SSH 비공개 키 ID
                 sshagent (credentials: ['deploy-ssh']) {
-                    // 1) 기존 앱 프로세스 종료 (있으면) pkill
-				    sh """
-                    ssh -o StrictHostKeyChecking=no -p ${DEPLOY_PORT} \
-                        ${DEPLOY_USER}@${DEPLOY_HOST} 'pkill -f JenkinsApplication || true'
-                    """
-                    
-                    // 2) JAR 복사 (scp는 -P 대문자)
-                    sh """
-                    scp -P ${DEPLOY_PORT} \
-                        build/libs/*.jar \
-                        ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}/
-                    """
-                    
-                    // 3) 백그라운드로 재시작, StrictHostKeyChecking=no 옵션은 처음 연결 시 호스트 키 검증 단계에서 대기하지 않도록 해 줍니다.
-                    sh """
-                    ssh -p ${DEPLOY_PORT} \
-                        ${DEPLOY_USER}@${DEPLOY_HOST} \
-                        "nohup java -jar ${DEPLOY_PATH}/*.jar > ${DEPLOY_PATH}/app.log 2>&1 &"
-                    """
+					sh "ssh -p 22 jenkins@127.0.0.1 'pkill -f JenkinsApplication || true'"
+  					sh "scp -P 22 build/libs/*.jar jenkins@127.0.0.1:${DEPLOY_PATH}/"
+  					sh "ssh -p 22 jenkins@127.0.0.1 'nohup java -jar ${DEPLOY_PATH}/*.jar > ${DEPLOY_PATH}/app.log 2>&1 &'"
                 }
             }
         }
