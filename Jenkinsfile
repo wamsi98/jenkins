@@ -9,8 +9,8 @@ pipeline {
         // DEPLOY_HOST = 배포 대상 서버 IP/호스트명
         // DEPLOY_PATH = JAR을 복사하고 실행할 폴더 경로
         DEPLOY_USER = 'jenkins'
-        DEPLOY_HOST = '192.168.0.14'
-        DEPLOY_PORT = '2222'
+        DEPLOY_HOST = '127.0.01'
+        DEPLOY_PORT = '22'
         DEPLOY_PATH = '/home/jenkins/apps/demo'
     }
 
